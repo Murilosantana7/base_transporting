@@ -16,7 +16,7 @@ def rename_downloaded_file(download_dir, download_path):
     """Renames the downloaded file to include the current hour."""
     try:
         current_hour = datetime.datetime.now().strftime("%H")
-        new_file_name = f"TO-Packed{current_hour}.zip"
+        new_file_name = f"TO-Transporting{current_hour}.zip"
         new_file_path = os.path.join(download_dir, new_file_name)
         if os.path.exists(new_file_path):
             os.remove(new_file_path)
@@ -112,8 +112,8 @@ def update_google_sheet_with_dataframe(df_to_upload):
         client = gspread.authorize(creds)
         
         # ATENÇÃO: Use o nome correto da sua planilha e da aba
-        planilha = client.open("Stage Out Management - SP5 - SPX")
-        aba = planilha.worksheet("Packed")
+        planilha = client.open("Contagem Leftover")
+        aba = planilha.worksheet("Transporting")
         
         aba.clear() # Limpa a aba antes de inserir novos dados
         set_with_dataframe(aba, df_to_upload) # Usa a função para enviar o DataFrame
@@ -134,7 +134,7 @@ async def main():
             # LOGIN
             await page.goto("https://spx.shopee.com.br/")
             await page.wait_for_selector('xpath=//*[@placeholder="Ops ID"]', timeout=15000)
-            await page.locator('xpath=//*[@placeholder="Ops ID"]').fill('Ops71223')
+            await page.locator('xpath=//*[@placeholder="Ops ID"]').fill('Ops141327')
             await page.locator('xpath=//*[@placeholder="Senha"]').fill('@Shopee123')
             await page.locator('xpath=/html/body/div[1]/div/div[2]/div/div/div[1]/div[3]/form/div/div/button').click()
             await page.wait_for_timeout(15000)
@@ -154,7 +154,7 @@ async def main():
             #await page.get_by_role("button", name="Exportar").nth(1).click()
             await page.wait_for_timeout(8000)
             #await page.locator('xpath=/html[1]/body[1]/div[3]/div[2]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[1]/label[1]/span[1]/input[1]').click()
-            await page.get_by_role("treeitem", name="Packed", exact=True).click()
+            await page.get_by_role("treeitem", name="Transporting", exact=True).click()
             await page.wait_for_timeout(8000)
             #await page.locator('xpath=/html/body/div[3]/div[2]/div/div[3]/span/button[2]').click()
             await page.get_by_role("button", name="Confirmar").click()
